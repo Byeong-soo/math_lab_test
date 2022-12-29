@@ -23,7 +23,7 @@ public class ChatRoomController {
     public String goChatRoom(Model model) {
         model.addAttribute("list", chatRepository.findAllRoom());
         log.info("SHOW ALL ChatList {}",chatRepository.findAllRoom());
-        return "/chat/roomList";
+        return "chat/roomList";
     }
 
     @PostMapping("/chat/createroom")
@@ -33,7 +33,7 @@ public class ChatRoomController {
         log.info("CREATE Chat Room{}",room);
 
         rttr.addFlashAttribute("roomName", room);
-        return "redirect:/chat";
+        return "redirect:chat";
     }
 
     @GetMapping("/chat/room")
@@ -44,7 +44,7 @@ public class ChatRoomController {
         System.out.println("chatRoom.getRoomId() = " + chatRoom.getRoomId());
         model.addAttribute("room", chatRoom);
         
-        return "/chat/chatroom";
+        return "chat/chatroom";
     }
 
 }
