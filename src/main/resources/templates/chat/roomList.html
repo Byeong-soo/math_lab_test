@@ -219,21 +219,21 @@
       // 비동기 처리 설정 false 로 변경 => ajax 통신이 완료된 후 return 문 실행
       // 기본설정 async = true 인 경우에는 ajax 통신 후 결과가 나올 때까지 기다리지 않고 먼저 return 문이 실행되서
       // 제대로된 값 - 원하는 값 - 이 return 되지 않아서 문제가 발생한다.
-      $.ajax({
-        type : "GET",
-        url : "/chat/chkUserCnt/"+roomId,
-        async : false,
-        success : function(result){
-
-          // console.log("여기가 먼저")
-          if (!result) {
-            alert("채팅방이 꽉 차서 입장 할 수 없습니다");
-          }
-
-          chk = result;
-        }
-      })
-      return chk;
+      // $.ajax({
+      //   type : "GET",
+      //   url : "/chat/chkUserCnt/"+roomId,
+      //   async : false,
+      //   success : function(result){
+      //
+      //     // console.log("여기가 먼저")
+      //     if (!result) {
+      //       alert("채팅방이 꽉 차서 입장 할 수 없습니다");
+      //     }
+      //
+      //     chk = result;
+      //   }
+      // })
+      return 1;
     }
 
 
@@ -286,7 +286,7 @@
 <!--        <th scope="col">참여 인원</th>-->
         <th scope="col">채팅 종류</th>
         <th scope="col">채팅방 설정</th>
-      </tr>명
+      </tr>
       <th:block th:fragment="content">
 
         <tr th:each="room : ${list}">
@@ -295,7 +295,11 @@
             <a th:href="@{/chat/room(roomId=${room.roomId})}" th:roomId="${room.roomId}" onclick="return chkRoomUserCnt(this.getAttribute('roomId'));">[[${room.roomName}]]</a>
           </td>
           <td>
-            <button class="btn btn-primary btn-sm" id="configRoom" data-bs-toggle="modal" data-bs-target="#confirmPwdModal" th:data-id="${room.roomId}">채팅방 설정</button>
+            <span th:if="${#strings.equals(room.chatType, 'MSG')}">일반 채팅</span>
+            <span th:unless="${#strings.equals(room.chatType, 'MSG')}">화상 채팅</span>
+          </td>
+          <td>
+            <button class="btn btn-primary btn-sm disabled" id="configRoom" data-bs-toggle="modal" data-bs-target="#confirmPwdModal" th:data-id="${room.roomId}">채팅방 설정</button>
           </td>
         </tr>
       </th:block>
@@ -328,20 +332,20 @@
 <!--              </div>-->
 <!--            </div>-->
 <!--          </div>-->
-<!--          <div class="mb-3">-->
-<!--            <div class="form-check">-->
-<!--              <input class="form-check-input" type="radio" name="chatType" id="msgType" value="msgChat">-->
-<!--              <label class="form-check-label" for="msgType">-->
-<!--                일반 채팅(최대 100명)-->
-<!--              </label>-->
-<!--            </div>-->
-<!--            <div class="form-check">-->
-<!--              <input class="form-check-input" type="radio" name="chatType" id="rtcType" value="rtcChat">-->
-<!--              <label class="form-check-label" for="rtcType">-->
-<!--                화상 채팅(1:1 Only)-->
-<!--              </label>-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="mb-3">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="chatType" id="msgType" value="msgChat">
+              <label class="form-check-label" for="msgType">
+                일반 채팅(최대 100명)
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="chatType" id="rtcType" value="rtcChat">
+              <label class="form-check-label" for="rtcType">
+                화상 채팅(1:1 Only)
+              </label>
+            </div>
+          </div>
 <!--          <div class="mb-3">-->
 <!--            <label for="maxUserCnt" class="col-form-label">채팅방 인원 설정-->
 <!--              &lt;!&ndash;<input class="form-check-input" type="checkbox" id="maxChk">&ndash;&gt;</label>-->

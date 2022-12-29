@@ -1,10 +1,10 @@
 package com.example.demo.controller;
 
-import com.example.demo.domain.ChatRoom;
-import com.example.demo.repository.ChatRepository;
+import com.example.demo.domain.ChatRoomDTO;
+import com.example.demo.domain.ChatRoomMap;
+import com.example.demo.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,25 +12,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.UUID;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
 public class ChatRoomController {
 
-    private final ChatRepository chatRepository;
-
-    @GetMapping("/chat")
-    public String goChatRoom(Model model) {
-        model.addAttribute("list", chatRepository.findAllRoom());
-        log.info("SHOW ALL ChatList {}",chatRepository.findAllRoom());
-        return "chat/roomList";
-    }
+    private final ChatService chatService;
 
     @PostMapping("/chat/createroom")
-    public String createRoom(@RequestParam String roomName, RedirectAttributes rttr) {
+    public String createRoom(@RequestParam("roomName") String roomName,
+                             @RequestParam("chatType") String chatType,
+                             RedirectAttributes rttr) {
 
-        ChatRoom room = chatRepository.createChatRoom(roomName);
+
+        ChatRoomDTO room;
+        room = chatService.createChatRoom(roomName, chatType);
         log.info("CREATE Chat Room{}",room);
+
 
         rttr.addFlashAttribute("roomName", room);
         return "redirect:/chat";
@@ -39,12 +39,19 @@ public class ChatRoomController {
     @GetMapping("/chat/room")
     public String roomDetail(Model model, String roomId) {
         log.info("roomId {}", roomId);
-        ChatRoom chatRoom = chatRepository.findRoomById(roomId);
-        System.out.println("chatRoom.getRoomName() = " + chatRoom.getRoomName());
-        System.out.println("chatRoom.getRoomId() = " + chatRoom.getRoomId());
-        model.addAttribute("room", chatRoom);
-        
-        return "chat/chatroom";
+        ChatRoomDTO room = ChatRoomMap.getInstance().getChatRooms().get(roomId);
+        model.addAttribute("room", room);
+        log.info("room {}",room);
+//        System.out.println("room.getRoomId() = " + room.getRoomId());
+//        System.out.println("room.getChatType() = " + room.getChatType());
+
+        if(ChatRoomDTO.ChatType.MSG.equals(room.getChatType())){
+            return "chat/chatroom";
+        }else{
+            model.addAttribute("uuid", UUID.randomUUID().toString());
+            return "chat/rtcroom";
+        }
+//        return "redirect:/chat";
     }
 
 }
