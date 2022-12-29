@@ -33,7 +33,7 @@ public class ChatRoomController {
         log.info("CREATE Chat Room{}",room);
 
         rttr.addFlashAttribute("roomName", room);
-        return "redirect:chat";
+        return "redirect:/chat";
     }
 
     @GetMapping("/chat/room")
