@@ -17,6 +17,8 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.thymeleaf.util.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -38,6 +40,8 @@ public class SignalHandler extends TextWebSocketHandler {
     private static final String MSG_TYPE_ICE = "ice";
     private static final String MSG_TYPE_JOIN = "join";
     private static final String MSG_TYPE_LEAVE = "leave";
+
+    private static final String MSG_TYPE_TALK = "talk";
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {

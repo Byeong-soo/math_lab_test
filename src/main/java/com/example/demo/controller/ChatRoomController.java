@@ -47,11 +47,13 @@ public class ChatRoomController {
 
         if(ChatRoomDTO.ChatType.MSG.equals(room.getChatType())){
             return "chat/chatroom";
-        }else{
+        }else if(ChatRoomDTO.ChatType.RTC.equals(room.getChatType())){
             model.addAttribute("uuid", UUID.randomUUID().toString());
             return "chat/rtcroom";
+        }else{
+            model.addAttribute("uuid", UUID.randomUUID().toString());
+            return "chat/bothroom";
         }
-//        return "redirect:/chat";
     }
 
 }

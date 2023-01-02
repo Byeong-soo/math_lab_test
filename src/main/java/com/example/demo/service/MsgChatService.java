@@ -23,7 +23,7 @@ public class MsgChatService {
                 .roomName(roomName)
                 .build();
 
-        room.setUserList(new HashMap<String ,String>());
+        room.setTextUserList(new HashMap<String ,String>());
 
         room.setChatType(ChatRoomDTO.ChatType.MSG);
         ChatRoomMap.getInstance().getChatRooms().put(room.getRoomId(),room);
@@ -34,7 +34,7 @@ public class MsgChatService {
         ChatRoomDTO room = chatRoomMap.get(roomId);
         String userUUID = UUID.randomUUID().toString();
 
-        HashMap<String,String> userList = (HashMap<String, String>)room.getUserList();
+        HashMap<String,String> userList = (HashMap<String, String>)room.getTextUserList();
         userList.put(userUUID, userName);
         return userUUID;
     }
@@ -43,7 +43,7 @@ public class MsgChatService {
         ChatRoomDTO room = chatRoomMap.get(roomId);
         String tmp = username;
 
-        while(room.getUserList().containsValue(tmp)){
+        while(room.getTextUserList().containsValue(tmp)){
             int ranNum = (int) (Math.random()*100)+1;
 
             tmp = username+ranNum;
@@ -53,7 +53,7 @@ public class MsgChatService {
 
     public String findUserNameByRoomIdAndUserUUID(Map<String, ChatRoomDTO> chatRoomMap, String roomId, String userUUID){
         ChatRoomDTO room = chatRoomMap.get(roomId);
-        return (String) room.getUserList().get(userUUID);
+        return (String) room.getTextUserList().get(userUUID);
     }
 
     public ArrayList<String> getUserList(Map<String, ChatRoomDTO> chatRoomMap, String roomId){
@@ -61,13 +61,13 @@ public class MsgChatService {
 
         ChatRoomDTO room = chatRoomMap.get(roomId);
 
-        room.getUserList().forEach((key, value) -> list.add((String) value));
+        room.getTextUserList().forEach((key, value) -> list.add((String) value));
         return list;
     }
 
     public void delUser(Map<String, ChatRoomDTO> chatRoomMap, String roomId, String userUUID){
         ChatRoomDTO room = chatRoomMap.get(roomId);
-        room.getUserList().remove(userUUID);
+        room.getTextUserList().remove(userUUID);
     }
 
 }

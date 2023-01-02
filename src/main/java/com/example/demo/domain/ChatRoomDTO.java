@@ -3,6 +3,7 @@ package com.example.demo.domain;
 import com.sun.istack.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashMap;
 
@@ -16,10 +17,11 @@ public class ChatRoomDTO {
     private long userCount;
 
     public enum ChatType{
-        MSG,RTC
+        MSG,RTC,BOTH
     }
 
     private ChatType chatType;
 
-    private HashMap<String, ?> userList;
+    private HashMap<String, String > textUserList;
+    private HashMap<String, WebSocketSession> videoUserList;
 }

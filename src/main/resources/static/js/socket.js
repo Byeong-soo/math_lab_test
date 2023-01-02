@@ -1,7 +1,5 @@
 'use strict';
 
-'use strict';
-
 // document.write("<script src='jquery-3.6.1.js'></script>")
 document.write("<script\n" +
     "  src=\"https://code.jquery.com/jquery-3.6.1.min.js\"\n" +
@@ -41,8 +39,8 @@ function connect(event) {
     chatPage.classList.remove('hidden');
 
     // 연결하고자하는 Socket 의 endPoint
-    var socket = new SockJS('/ws-stomp');
-    stompClient = Stomp.over(socket);
+    var textSocket = new SockJS('/ws-stomp');
+    stompClient = Stomp.over(textSocket);
 
     stompClient.connect({}, onConnected, onError);
 

@@ -24,7 +24,7 @@ public class RtcChatService {
                 .roomName(roomName)
                 .build();
 
-        room.setUserList(new HashMap<String, WebSocketSession>());
+        room.setVideoUserList(new HashMap<String, WebSocketSession>());
         room.setChatType(ChatRoomDTO.ChatType.RTC);
         ChatRoomMap.getInstance().getChatRooms().put(room.getRoomId(), room);
 
@@ -34,17 +34,17 @@ public class RtcChatService {
     public Map<String ,WebSocketSession> getClients(ChatRoomDTO room){
         Optional<ChatRoomDTO> roomDto = Optional.ofNullable(room);
 
-        return (Map<String, WebSocketSession>) roomDto.get().getUserList();
+        return roomDto.get().getVideoUserList();
     }
 
     public Map<String, WebSocketSession> addClient(ChatRoomDTO room, String name, WebSocketSession session) {
-        Map<String, WebSocketSession> userList = (Map<String, WebSocketSession>) room.getUserList();
+        Map<String, WebSocketSession> userList = room.getVideoUserList();
         userList.put(name, session);
         return userList;
     }
 
     public void removeClientByName(ChatRoomDTO room, String userUUID) {
-        room.getUserList().remove(userUUID);
+        room.getVideoUserList().remove(userUUID);
     }
 
 }

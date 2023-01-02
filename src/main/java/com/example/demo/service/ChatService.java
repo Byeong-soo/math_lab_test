@@ -21,6 +21,7 @@ public class ChatService {
 
     private final MsgChatService msgChatService;
     private final RtcChatService rtcChatService;
+    private final BothChatService bothChatService;
 
     public List<ChatRoomDTO> findAllRoom(){
         List<ChatRoomDTO> chatRooms = new ArrayList<>(ChatRoomMap.getInstance().getChatRooms().values());
@@ -38,8 +39,10 @@ public class ChatService {
 
         if(chatType.equals("msgChat")){
             room = msgChatService.createChatRoom(roomName);
-        }else{
+        }else if(chatType.equals("rtcChat")){
             room = rtcChatService.createChatRoom(roomName);
+        }else{
+            room = bothChatService.createChatRoom(roomName);
         }
         return room;
     }
